@@ -6,22 +6,39 @@ import (
 )
 
 type iban struct {
-	IBAN string `json:"iban"`
+	IBAN string `json:"iban" binding:"required"`
+}
+type ibanResponse struct {
+	Valid   bool   `json:"valid"`
+	Message string `json:"message"`
 }
 
-func IBANValidator(c *gin.Context) {
+func (i ibanResponse) Error() string {
+	return i.Message
+}
+
+func ValidateIBAN(c *gin.Context) {
 	in := iban{}
 	if err := c.BindJSON(&in); err != nil {
 		responseObject(c, in, err)
 		return
 	}
 
-	_, err := pkg.Validate(in.IBAN)
+	valid, err := pkg.Validate(in.IBAN)
 
-	if err != nil {
-		responseObject(c, in, err)
+	// if invalid, return error
+	if !valid && err != nil {
+		responseObject(c, ibanResponse{
+			Valid:   false,
+			Message: err.Error(),
+		}, nil)
 		return
 	}
-	responseObject(c, "valid IBAN", nil)
+
+	// if valid, return success
+	responseObject(c, ibanResponse{
+		Valid:   true,
+		Message: in.IBAN,
+	}, nil)
 	return
 }

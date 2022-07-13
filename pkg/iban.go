@@ -72,5 +72,5 @@ func isValidIban(iban string) (valid bool, err error) {
 	if remainder.Int64() == 1 {
 		return true, nil
 	}
-	return false, errors.New("iban has incorrect check digits")
+	return false, fmt.Errorf("IBAN: IBAN has incorrect check digits <%s>", iban)
 }
