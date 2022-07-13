@@ -3,26 +3,18 @@ package pkg
 import (
 	"errors"
 	"fmt"
-	"io"
 	"math/big"
-	"net/http"
 	"regexp"
 	"strconv"
 	"strings"
 )
 
-func Validate(w http.ResponseWriter, r *http.Request) {
-	// Check that the total IBAN length is correct as per the country. If not, the IBAN is invalid
-	// Move the four initial characters to the end of the string
-	// Replace each letter in the string with two digits, thereby expanding the string, where A = 10, B = 11, ..., Z = 35
-	// Interpret the string as a decimal integer and compute the remainder of that number on division by 97
-
-	_, err := isValidIban("AD1200012030200359100100")
-	fmt.Println(r)
-	io.WriteString(w, err.Error())
+func Validate(iban string) (valid bool, err error) {
+	valid, err = isValidIban(iban)
+	return valid, err
 }
 
-func isValidIban(iban string) (isValid bool, err error) {
+func isValidIban(iban string) (valid bool, err error) {
 	// Check that the total IBAN length is correct as per the country. If not, the IBAN is invalid
 	// Move the four initial characters to the end of the string
 	// Replace each letter in the string with two digits, thereby expanding the string, where A or a = 10, B or b = 11, ..., Z or z = 35
@@ -82,6 +74,3 @@ func isValidIban(iban string) (isValid bool, err error) {
 	}
 	return false, errors.New("iban has incorrect check digits")
 }
-
-// 00012030200359100100101312
-// 00012030200359100100101312
