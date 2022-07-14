@@ -8,6 +8,7 @@ import (
 type iban struct {
 	IBAN string `json:"iban" binding:"required"`
 }
+
 type ibanResponse struct {
 	Valid   bool   `json:"valid"`
 	Message string `json:"message"`

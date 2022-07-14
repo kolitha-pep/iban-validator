@@ -8,6 +8,6 @@ import (
 func main() {
 
 	r := gin.Default()
-	r.GET("/validate", handlers.ValidateIBAN)
+	r.GET("/validate/iban", handlers.ValidateIBAN)
 	r.Run()
 }

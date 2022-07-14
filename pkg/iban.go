@@ -45,8 +45,6 @@ func isValidIban(iban string) (valid bool, err error) {
 	// Move the four initial characters to the end of the string
 	modifiedIban := iban[4:] + iban[:4]
 
-	fmt.Println(cc, modifiedIban)
-
 	// check if characters are A-z
 	regx := regexp.MustCompile(`^[A-Za-z]+$`).MatchString
 
