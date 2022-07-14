@@ -39,7 +39,7 @@ make test
 ## <b>Usage</b>
 
 ```
-POST 0.0.0.0:8080/validate/iban
+GET 0.0.0.0:8080/validate/iban
 {
     "iban": "AD1200012030200359100100"
 }
